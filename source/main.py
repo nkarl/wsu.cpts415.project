@@ -7,12 +7,12 @@ import pandas as pd
 import numpy as np
 from cassandra.cluster import Cluster
 
-ip_address = '0.0.0.0'
-keyspace_name = ''
-cluster = Cluster(ip_address)
-session = cluster.connect()
-query = "CREATE DATABASE"   # change later
-session.execute(query)
+# ip_address = '0.0.0.0'
+# keyspace_name = ''
+# cluster = Cluster(ip_address)
+# session = cluster.connect()
+# query = "CREATE DATABASE"   # change later
+# session.execute(query)
 
 columns = ['GESTCEN', 'PXRACE', 'PRDTRACE', 'A_AGE', 'A_SEX', 'ERN_VAL', 'PHIP_VAL', 'PMED_VAL']
 
@@ -24,7 +24,7 @@ for file in os.listdir('data'):
         # table = df.loc[:, columns]
         print(df)
 
-cluster.shutdown()
+# cluster.shutdown()
 
 if __name__ == "__main__":
     print("Hello")
