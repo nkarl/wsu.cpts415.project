@@ -2,3 +2,6 @@
 **.csv
 **.zip
 **__pycache__/
+
+# Docker volume
+cassandra_data/cassandra
