@@ -1,0 +1,14 @@
+version: "3.9"
+services:
+  cassandra:
+    image: cassandra:latest
+    container_name: wsu415_cassandra
+    networks:
+      - wsu415
+    volumes:
+      - ./cassandra_data/cassandra:/var/lib/cassandra
+    ports:
+      - 9042:9042
+
+networks:
+  wsu415:
