@@ -20,10 +20,18 @@ columns = ['GESTCEN', 'PXRACE1', 'PRDTRACE', 'A_AGE', 'A_SEX', 'ERN_VAL', 'PHIP_
 file = os.listdir('data')[-1]
 assert 'pppub18early_18par.sas7bdat' == file
 f = os.path.join('data', file)
-df = pd.read_sas(f)
-print(df)
-table = df.loc[:, columns]
-print(table)
+pppubDF = pd.read_sas(f)
+#print(pppubDF)
+table = pppubDF.loc[:, columns]
+#print(table)
+
+# making dataframe 
+rateDF = pd.read_csv("data/archive/Rate.csv") 
+
+joinedDF = pppubDF.join(rateDF)
+
+# output the joined dataframe
+print(joinedDF)
 
 # cluster.shutdown()
 
