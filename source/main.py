@@ -14,15 +14,16 @@ from cassandra.cluster import Cluster
 # query = "CREATE DATABASE"   # change later
 # session.execute(query)
 
-columns = ['GESTCEN', 'PXRACE', 'PRDTRACE', 'A_AGE', 'A_SEX', 'ERN_VAL', 'PHIP_VAL', 'PMED_VAL']
+columns = ['GESTCEN', 'PXRACE1', 'PRDTRACE', 'A_AGE', 'A_SEX', 'ERN_VAL', 'PHIP_VAL', 'PMED_VAL']
 
 # https://stackoverflow.com/questions/49108809/how-to-insert-pandas-dataframe-into-cassandra
-for file in os.listdir('data'):
-    f = os.path.join('data', file)
-    if os.path.isfile(f) and 'sas7bdat' in f:
-        df = pd.read_sas(f)
-        # table = df.loc[:, columns]
-        print(df)
+file = os.listdir('data')[-1]
+assert 'pppub18early_18par.sas7bdat' == file
+f = os.path.join('data', file)
+df = pd.read_sas(f)
+print(df)
+table = df.loc[:, columns]
+print(table)
 
 # cluster.shutdown()
 
