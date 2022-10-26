@@ -17,9 +17,9 @@ from cassandra.cluster import Cluster
 columns = ['GESTCEN', 'PXRACE1', 'PRDTRACE', 'A_AGE', 'A_SEX', 'ERN_VAL', 'PHIP_VAL', 'PMED_VAL']
 
 # https://stackoverflow.com/questions/49108809/how-to-insert-pandas-dataframe-into-cassandra
-file = os.listdir('data')[-1]
-assert 'pppub18early_18par.sas7bdat' == file
-f = os.path.join('data', file)
+print(os.listdir('data'))
+sas_file = 'pppub18early_18par.sas7bdat'
+f = os.path.join('data', sas_file)
 pppubDF = pd.read_sas(f)
 #print(pppubDF)
 table = pppubDF.loc[:, columns]
