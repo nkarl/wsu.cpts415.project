@@ -9,6 +9,18 @@ services:
       - ./cassandra_data/cassandra:/var/lib/cassandra
     ports:
       - 9042:9042
+  gui:
+    image: ipushc/cassandra-web
+    container_name: wsu415_gui
+    restart: on-failure
+    networks:
+      - wsu415
+    ports:
+      - 9043:8083
+    environment:
+      - CASSANDRA_PORT=9042
+    depends_on:
+      - cassandra
 
 networks:
   wsu415:
