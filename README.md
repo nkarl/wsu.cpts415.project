@@ -2,6 +2,7 @@
 
 ## Getting started
 This project requires Cassandra Docker image.
+
 ###Canssandra
 First of all, make sure that your environment has Docker installed. 
 Run

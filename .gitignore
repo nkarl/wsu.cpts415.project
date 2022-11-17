@@ -5,3 +5,6 @@
 
 # Docker volume
 cassandra_data/cassandra
+src/data
+
+!*/README.md
