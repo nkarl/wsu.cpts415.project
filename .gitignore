@@ -7,4 +7,4 @@
 cassandra_data/cassandra
 src/data
 
-!*/README.md
+!src/data/README.md
