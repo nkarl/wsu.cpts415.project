@@ -9,6 +9,9 @@ import random
 import numpy as np
 from cassandra.cluster import Cluster
 
+# import our parallel processing enngine
+# import engine.core as parallel
+
 # ip_address = '0.0.0.0'
 # keyspace_name = ''
 # cluster = Cluster(ip_address)
