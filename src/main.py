@@ -95,8 +95,37 @@ def create_test_data(data):
         pd.DataFrame.to_csv(newdata, 'data/import/test_data.csv', mode ='a')
         print("Experimental dataset " + str(round((s/201),4) * 100) + "% complete.")
 
+def cassandra_create_table(tableName, tableFields, session):
+    query = "CREATE TABLE IF NOT EXISTS " + tableName + " (" + tableFields  + ");"
+    session.execute(query)
+
+def load_into_cassandra(data):
+    print("Loading into cassandra...\n")
+
+    ## Creates Cassandra cluster, connects to default parameters, creates keyspace, and then sets the default keyspace via "USE".
+    cluster = Cluster()
+    session = cluster.connect("")
+    keyspace_name = "test"
+    query = "CREATE KEYSPACE IF NOT EXISTS " + keyspace_name + " WITH replication " + "= {'class':'SimpleStrategy', 'replication_factor':1};"; 
+    session.execute(query)
+    session.execute("USE " + keyspace_name)
+    
+    ## Creates a table 
+    tableName = "person2"
+    tableFields = "age text, height text, PRIMARY KEY (age)"
+    cassandra_create_table(tableName, tableFields, session)
+
+    ## Inserts values into the table, iterating through each item in Dataframe data.
+    query = "INSERT INTO " + tableName + "(age, height) VALUES (?,?)" #Edit the values in the parentheses to insert different vals. Must append another "?" after VALUES for each additional field.
+    prepared = session.prepare(query)
+    for item in data:
+        # Executes the prepared statement earlier. All "?" values are replaced with the list given in the 2nd argument of session.execute().
+        session.execute(prepared, ("asd","sdf"))
+
 if __name__ == "__main__":
-    pd.DataFrame.to_csv(joinedDF, "data/import/combined_data.csv")
+    ## pd.DataFrame.to_csv(joinedDF, "data/import/combined_data.csv")
+
+    load_into_cassandra(joinedDF)
 
     ## Create testing data set ### WARNING, execution time is slow, requires 130gb disk space.
     ## create_test_data(joinedDF)
