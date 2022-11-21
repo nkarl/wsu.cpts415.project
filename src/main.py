@@ -31,15 +31,17 @@ table = pppubDF.loc[:, columns]
 legend = open('data/censusstatecodelegend.txt').readlines()
 states = {}
 for line in legend:
-    line = re.split(r'\t+', line)
-    states[int(line[0])] = line[1].strip("\n")
+    num, code = re.split(r'\t+', line)
+    states[int(num)] = code.strip('\n')
 
 ##convert pracerecode data to str type ex(Black,White,Hispanic)
 legend = open('data/pracerecodelegend.txt').readlines()
 race = {}
 for line in legend:
-    line = re.split(r'\t+', line)
-    race[int(line[0])] = line[1].strip("\n").strip("only")
+    code, description = re.split(r'\t+', line)
+    description = description.strip(".\n").strip("only") # doesn't actually remove 'only' from all lines.
+    print(code, description)
+    race[int(code)] = description
 
 i = 0
 K_MARK = 1000
@@ -58,6 +60,7 @@ for row in range(0, len(table)):
     else:
         table.at[row, "PHIP_VAL"] = str(round(int((table.at[row, "PHIP_VAL"])/12),2))
     i += 1
+print(i)
 
 
 table = table.rename({'GESTCEN': 'StateCode', 'A_AGE': 'Age', 'A_SEX': 'Sex', 'PHIP_VAL': 'IndividualRate', 'PRDTRACE' : 'Race', 'PMED_VAL': 'AmountPaidMedical', 'ERN_VAL': 'AnnualIncome'}, axis=1)
