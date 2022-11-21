@@ -41,24 +41,24 @@ for line in legend:
     line = re.split(r'\t+', line)
     race[int(line[0])] = line[1].strip("\n").strip("only")
 
+i = 0
+K_MARK = 1000
 ##Convert prdtrace to concatenate format
 for row in range(0, len(table)):
+    if i % K_MARK == 0:
+        print(i)
     table.at[row, "PRDTRACE"] = race[int(table["PRDTRACE"][row])]
-
-##Convert statecode to concatenate format
-for row in range(0, len(table)):
+    ##Convert statecode to concatenate format
     table.at[row, "GESTCEN"] = states[int(table["GESTCEN"][row])]
-
-##Convert Age to concatenate format
-for row in range(0, len(table)):
+    ##Convert Age to concatenate format
     table.at[row, "A_AGE"] = str(int(table.at[row, "A_AGE"]))
-
-##Convert Insurance Rate to monthly for concatenation
-for row in range(0, len(table)):
+    ##Convert Insurance Rate to monthly for concatenation
     if table.at[row, "PHIP_VAL"] == 'Nan':
         table.at[row, "PHIP_VAL"] = 0
     else:
         table.at[row, "PHIP_VAL"] = str(round(int((table.at[row, "PHIP_VAL"])/12),2))
+    i += 1
+
 
 table = table.rename({'GESTCEN': 'StateCode', 'A_AGE': 'Age', 'A_SEX': 'Sex', 'PHIP_VAL': 'IndividualRate', 'PRDTRACE' : 'Race', 'PMED_VAL': 'AmountPaidMedical', 'ERN_VAL': 'AnnualIncome'}, axis=1)
 
