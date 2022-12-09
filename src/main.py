@@ -111,21 +111,25 @@ def load_into_cassandra(data):
     session.execute("USE " + keyspace_name)
     
     ## Creates a table 
-    tableName = "person2"
-    tableFields = "age text, height text, PRIMARY KEY (age)"
+    tableName = "rate"
+    tableFields = "BusinessYear int, StateCode text, IssuerId int, Age text, IndividualRate int, Race text, Sex int, AnnualIncome int, AmountPaidMedical int, Name int, PRIMARY KEY (Name)"
     cassandra_create_table(tableName, tableFields, session)
 
     ## Inserts values into the table, iterating through each item in Dataframe data.
-    query = "INSERT INTO " + tableName + "(age, height) VALUES (?,?)" #Edit the values in the parentheses to insert different vals. Must append another "?" after VALUES for each additional field.
+    query = "INSERT INTO " + tableName + "(BusinessYear, StateCode, IssuerId, Age, IndividualRate, Race, Sex, AnnualIncome, AmountPaidMedical, Name) VALUES (?,?,?,?,?,?,?,?,?,?)" #Edit the values in the parentheses to insert different vals. Must append another "?" after VALUES for each additional field.
     prepared = session.prepare(query)
-    for item in data:
-        # Executes the prepared statement earlier. All "?" values are replaced with the list given in the 2nd argument of session.execute().
-        session.execute(prepared, ("asd","sdf"))
+
+    ##Fill NaN values with random selection from array with actual value
+    for i,j in data.iterrows():
+        if (i % 100 == 0):
+            print(i)
+        session.execute(prepared, (int(j["BusinessYear"]),str(j["StateCode"]),int(j["IssuerId"]),str(j["Age"]),int(j["IndividualRate"]),str(j["Race"]),int(j["Sex"]),int(j["AnnualIncome"]),int(j["AmountPaidMedical"]),int(i+1)))
 
 if __name__ == "__main__":
     ## pd.DataFrame.to_csv(joinedDF, "data/import/combined_data.csv")
 
-    load_into_cassandra(joinedDF)
+    newTestDataFrame = pd.read_csv("data/test_data.csv")
+    load_into_cassandra(newTestDataFrame)
 
     ## Create testing data set ### WARNING, execution time is slow, requires 130gb disk space.
     ## create_test_data(joinedDF)
