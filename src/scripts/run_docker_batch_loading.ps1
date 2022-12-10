@@ -5,3 +5,5 @@ docker cp "data/test_data_cleaned.csv" "wsu415_cassandra:/var/lib/test_data_prep
 docker cp "scripts/loaddb.cql" "wsu415_cassandra:/var/lib/loaddb.cql"
 #docker exec -it wsu415_cassandra cqlsh
 echo "Inserting data into Cassandra..."
+# RUN THE NEXT LINE MANUALLY
+#docker exec -it wsu415_cassandra cqlsh --file="/var/lib/loaddb.cql" # bug causes final chunk to be lost
